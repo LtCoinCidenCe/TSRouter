@@ -24,7 +24,7 @@ export async function createContact() {
   return contact;
 }
 
-export async function getContact(id:string): Promise<ContactObject|null> {
+export async function getContact(id: string): Promise<ContactObject | null> {
   await fakeNetwork(`contact:${id}`);
   let contacts = await localforage.getItem<ContactObject[]>("contacts");
   let contact = contacts.find(contact => contact.id === id);
@@ -52,7 +52,7 @@ export async function deleteContact(id) {
   return false;
 }
 
-function set(contacts:ContactObject[]) {
+function set(contacts: ContactObject[]) {
   return localforage.setItem("contacts", contacts);
 }
 

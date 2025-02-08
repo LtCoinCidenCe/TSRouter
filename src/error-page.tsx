@@ -1,14 +1,15 @@
 import { useRouteError } from "react-router-dom";
 
 type ErrorObject = {
-    data: string
-    status: number
-    message?: string
-    statusText: string
+  data: string
+  status: number
+  message?: string
+  statusText: string
 }
 
 export default function ErrorPage() {
   const error = useRouteError();
+  console.log("error");
   console.log(error);
   const errorTS = error as ErrorObject
 

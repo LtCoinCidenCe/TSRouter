@@ -1,6 +1,7 @@
 import { Link, Outlet, useLoaderData, Form, redirect, NavLink, useNavigation, useSubmit } from "react-router-dom";
 import { createContact, getContacts } from "../contacts";
 import { useEffect } from "react";
+import { ContactObject } from "../types";
 
 export async function loader({ request }) {
   const url = new URL(request.url);
@@ -15,7 +16,7 @@ export async function action() {
 }
 
 export default function Root() {
-  const { contacts, q } = useLoaderData();
+  const { contacts, q } = useLoaderData<{ contacts: ContactObject[], q: string }>();
   const navigation = useNavigation();
   const submit = useSubmit();
 

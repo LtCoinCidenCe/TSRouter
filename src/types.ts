@@ -6,4 +6,5 @@ export type ContactObject = {
   notes?: string
   twitter?: string
   avatar?: string
+  favorite?: boolean
 }
