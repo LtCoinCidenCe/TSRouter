@@ -22,7 +22,15 @@ export async function createContact() {
   return contact;
 }
 
-export async function getContact(id) {
+export async function getContact(id:string): Promise<{
+  id: string
+  createdAt: number
+  first?: string
+  last?: string
+  notes?: string
+  twitter?: string
+  avatar?: string
+}> {
   await fakeNetwork(`contact:${id}`);
   let contacts = await localforage.getItem("contacts");
   let contact = contacts.find(contact => contact.id === id);
