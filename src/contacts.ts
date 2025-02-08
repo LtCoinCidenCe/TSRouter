@@ -4,7 +4,7 @@ import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 import { ContactObject } from "./types";
 
-export async function getContacts(query: string | undefined) {
+export async function getContacts(query: string | undefined | null) {
   await fakeNetwork(`getContacts:${query}`);
   let contacts = await localforage.getItem<ContactObject[]>("contacts") as ContactObject[];
   if (query) {
@@ -30,7 +30,7 @@ export async function getContact(id: string): Promise<ContactObject | null> {
   return contact ?? null;
 }
 
-export async function updateContact(id: string, updates: ContactObject) {
+export async function updateContact(id: string, updates: unknown) {
   await fakeNetwork(null);
   let contacts = await localforage.getItem<ContactObject[]>("contacts") as ContactObject[];
   let contact = contacts.find(contact => contact.id === id);
