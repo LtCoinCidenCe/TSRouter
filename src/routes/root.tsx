@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ContactObject } from "../types";
 
 export default function Root() {
-  const { contacts, q } = useLoaderData<{ contacts: ContactObject[], q: string }>();
+  const { contacts, q } = useLoaderData<{ contacts: ContactObject[], q: string | null }>();
   const navigation = useNavigation();
   const submit = useSubmit();
 
@@ -14,7 +14,11 @@ export default function Root() {
     );
 
   useEffect(() => {
-    (document.getElementById("q") as HTMLInputElement).value = q;
+    if (!q) {
+      return;
+    }
+    else
+      (document.getElementById("q") as HTMLInputElement).value = q;
   }, [q]);
 
   return (
@@ -30,11 +34,12 @@ export default function Root() {
               placeholder="Search"
               type="search"
               name="q"
-              defaultValue={q}
+              defaultValue={!q ? "" : q}
               onChange={(event) => {
-                const isFirstSearch = q == null;
+                const isFirstSearch = q === null;
+                console.log(isFirstSearch);
                 submit(event.currentTarget.form, {
-                  replace: !isFirstSearch,
+                  replace: !isFirstSearch
                 });
               }}
             />
