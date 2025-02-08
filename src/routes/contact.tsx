@@ -1,15 +1,6 @@
 import { Form, useLoaderData } from "react-router-dom";
 import { getContact } from "../contacts";
-
-type ContactObject = {
-  id: string
-  createdAt: number
-  first?: string
-  last?: string
-  notes?: string
-  twitter?: string
-  avatar?: string
-}
+import { ContactObject } from "../types";
 
 export async function loader({ params }) {
   const contact = await getContact(params.contactId);
@@ -18,7 +9,6 @@ export async function loader({ params }) {
 
 export default function Contact() {
   const { contact } = useLoaderData<{ contact: ContactObject }>();
-  console.log(contact);
   // hard coded data
   // const contact = {
   //   first: "Your",

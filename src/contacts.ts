@@ -1,10 +1,12 @@
+/* eslint-disable prefer-const */
 import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
+import { ContactObject } from "./types";
 
 export async function getContacts(query) {
   await fakeNetwork(`getContacts:${query}`);
-  let contacts = await localforage.getItem("contacts");
+  let contacts = await localforage.getItem<ContactObject[]>("contacts");
   if (!contacts) contacts = [];
   if (query) {
     contacts = matchSorter(contacts, query, { keys: ["first", "last"] });
@@ -22,24 +24,16 @@ export async function createContact() {
   return contact;
 }
 
-export async function getContact(id:string): Promise<{
-  id: string
-  createdAt: number
-  first?: string
-  last?: string
-  notes?: string
-  twitter?: string
-  avatar?: string
-}> {
+export async function getContact(id:string): Promise<ContactObject|null> {
   await fakeNetwork(`contact:${id}`);
-  let contacts = await localforage.getItem("contacts");
+  let contacts = await localforage.getItem<ContactObject[]>("contacts");
   let contact = contacts.find(contact => contact.id === id);
   return contact ?? null;
 }
 
 export async function updateContact(id, updates) {
   await fakeNetwork();
-  let contacts = await localforage.getItem("contacts");
+  let contacts = await localforage.getItem<ContactObject[]>("contacts");
   let contact = contacts.find(contact => contact.id === id);
   if (!contact) throw new Error("No contact found for", id);
   Object.assign(contact, updates);
@@ -58,7 +52,7 @@ export async function deleteContact(id) {
   return false;
 }
 
-function set(contacts) {
+function set(contacts:ContactObject[]) {
   return localforage.setItem("contacts", contacts);
 }
 
@@ -76,6 +70,6 @@ async function fakeNetwork(key) {
 
   fakeCache[key] = true;
   return new Promise(res => {
-    setTimeout(res, Math.random() * 800);
+    setTimeout(res, Math.random() * 1600);
   });
 }

@@ -24,7 +24,7 @@
 
 
     /* Currently */
-    "noImplicitAny": false
+    // "noImplicitAny": false
   },
   "include": ["src"]
 }
