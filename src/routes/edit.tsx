@@ -1,12 +1,4 @@
-import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
-import { updateContact } from "../contacts";
-
-export async function action({ request, params }) {
-  const formData = await request.formData();
-  const updates = Object.fromEntries(formData);
-  await updateContact(params.contactId, updates);
-  return redirect(`/contacts/${params.contactId}`);
-}
+import { Form, useLoaderData, useNavigate } from "react-router-dom";
 
 export default function EditContact() {
   const { contact } = useLoaderData();

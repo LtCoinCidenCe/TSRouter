@@ -1,28 +1,8 @@
 import { Form, useFetcher, useLoaderData } from "react-router-dom";
-import { getContact, updateContact } from "../contacts";
 import { ContactObject } from "../types";
-
-export async function loader({ params }) {
-  const contact = await getContact(params.contactId);
-  if (!contact) {
-    throw new Response("", {
-      status: 404,
-      statusText: "Not Found",
-    });
-  }
-  return { contact };
-}
-
-export async function action({ request, params }) {
-  const formData = await request.formData();
-  return updateContact(params.contactId, {
-    favorite: formData.get("favorite") === "true",
-  });
-}
 
 export default function Contact() {
   const { contact } = useLoaderData<{ contact: ContactObject }>();
-
   console.log(contact);
 
   // hard coded data
